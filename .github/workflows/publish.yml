@@ -1,0 +1,36 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      message:
+        description: 'Commit message'
+        required: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16.x
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+      with:
+        ref: gh-pages
+        path: dist
+    - name: Checkout web client repo
+      uses: actions/checkout@v3
+      with:
+        repository: https://github.com/picapica-org/picapica-web-client.git
+        path: client
+    - name: Build client
+      run: cd client && npm ci && npm run build
+      env:
+        CI: true
+    - name: Copy build artifacts
+      run: rm -rf ./dist/public && mv ./client/public ./dist/public
+    - name: Publish build artifacts
+      run: cd dist && git commit -a -m "${{  github.event.inputs.message }}" && git push
