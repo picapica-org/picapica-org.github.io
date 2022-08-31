@@ -24,7 +24,7 @@ jobs:
     - name: Checkout web client repo
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/picapica-org/picapica-web-client.git
+        repository: picapica-org/picapica-web-client
         path: client
     - name: Build client
       run: cd client && npm ci && npm run build
