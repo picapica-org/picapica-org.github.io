@@ -33,5 +33,14 @@ jobs:
         CI: true
     - name: Copy build artifacts
       run: rm -rf ./dist/public && mv ./client/public ./dist/public
-    - name: Publish build artifacts
-      run: cd dist && git commit -a -m "${{  github.event.inputs.message }}" && git push
+    # - name: Publish build artifacts
+    #   run: cd dist && git commit -a -m "${{  github.event.inputs.message }}" && git push
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        # Optional. Commit message for the created commit.
+        # Defaults to "Apply automatic changes"
+        commit_message: ${{ github.event.inputs.message }}
+
+        # Optional. Local file path to the repository.
+        # Defaults to the root of the repository.
+        repository: ./dist
