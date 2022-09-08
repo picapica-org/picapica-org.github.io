@@ -31,10 +31,12 @@ jobs:
       run: cd client && npm ci && npm run build
       env:
         CI: true
+    - name: Clean dist
+      run: cd dist && node ../clean-build-artifacts.js
     - name: Copy build artifacts
-      run: rm -rf ./dist/public && mv ./client/public ./dist/public
+      run: mv ./client/public/* ./dist/
     # - name: Publish build artifacts
-    #   run: cd dist && git commit -a -m "${{  github.event.inputs.message }}" && git push
+    #   run: cd dist && git commit -a -m "${{ github.event.inputs.message }}" && git push
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
         # Optional. Commit message for the created commit.
