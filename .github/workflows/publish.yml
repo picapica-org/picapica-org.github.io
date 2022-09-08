@@ -19,6 +19,11 @@ jobs:
     - name: Checkout this repo
       uses: actions/checkout@v3
       with:
+        ref: main
+        path: main
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+      with:
         ref: gh-pages
         path: dist
     - name: Checkout web client repo
@@ -32,7 +37,7 @@ jobs:
       env:
         CI: true
     - name: Clean dist
-      run: cd dist && node ../clean-build-artifacts.js
+      run: cd dist && node ../main/clean-build-artifacts.js
     - name: Copy build artifacts
       run: mv ./client/public/* ./dist/
     # - name: Publish build artifacts
